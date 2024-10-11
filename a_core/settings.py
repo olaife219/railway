@@ -43,7 +43,7 @@ INTERNAL_IPS = {
     '127.0.0.1',
     'localhost:8000'
 }
-CSRF_TRUSTED_ORIGINS = [ 'https://*' ]
+# CSRF_TRUSTED_ORIGINS = [ 'https://*' ]
 
 
 # Application definition
