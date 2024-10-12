@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 
 from environ import Env
+import os
+
 env = Env()
-Env.read_env()
+if os.environ.get('ENVIRONMENT') == 'development':
+    Env.read_env()
 
 ENVIRONMENT = env('ENVIRONMENT', default="production")
 ENVIRONMENT = "production"
