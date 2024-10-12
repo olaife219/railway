@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from environ import Env
 import os
 
@@ -188,16 +192,12 @@ MEDIA_URL = 'media/'
 if ENVIRONMENT == 'development':
     MEDIA_ROOT = BASE_DIR / 'media' 
 else:
-    # Check for CLOUDINARY_URL in environment variables
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    CLOUDINARY_STORAGE = {
+        'CLOUDINARY_URL': CLOUDINARY_URL
+    }
     
-    if CLOUDINARY_URL:
-        DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-        CLOUDINARY_STORAGE = {
-            'CLOUDINARY_URL': CLOUDINARY_URL
-        }
-    else:
-        MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
