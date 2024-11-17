@@ -30,10 +30,9 @@ class GroupMessage(models.Model):
     @property
     def filename(self):
         if self.file:
-            return os.path.basename(self.file.name)
-        else:
-            return None
-
+            parsed_url = urlparse(self.file.url)
+            return os.path.basename(parsed_url.path)
+        return None
     def __str__(self):
         if self.body:
             return f'{self.author.username} : {self.body}'
@@ -43,18 +42,18 @@ class GroupMessage(models.Model):
     class Meta:
         ordering = ['-created']
 
-    # @property
-    # def is_image(self):
-    #     if self.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp')):
-    #         return True
-    #     else:
-    #         return False
-        
     @property
     def is_image(self):
-        try:
-            image = Image.open(self.file)
-            image.verify()
+        if self.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp')):
             return True
-        except:
+        else:
             return False
+        
+    # @property
+    # def is_image(self):
+    #     try:
+    #         image = Image.open(self.file)
+    #         image.verify()
+    #         return True
+    #     except:
+    #         return False
